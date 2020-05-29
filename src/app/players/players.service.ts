@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
-import { Player } from './players/player';
-import { PLAYERS } from './players/mock-playerlist';
+import { Player } from './player';
+import { PLAYERS } from './mock-playerlist';
 
 @Injectable({
   providedIn: 'root'

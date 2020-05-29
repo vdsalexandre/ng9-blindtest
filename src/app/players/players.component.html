@@ -1,1 +1,8 @@
-<p>players works!</p>
+<h1 class="center">Joueurs</h1>
+<div class="container">
+    <div class="row">
+        <ul>
+            <li *ngFor="let player of players">{{ player.name | uppercase }}</li>
+        </ul>
+    </div>
+</div>

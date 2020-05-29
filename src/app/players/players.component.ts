@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
+import { Player } from './player';
+import { PlayersService } from './players.service';
 
 @Component({
   selector: 'app-players',
@@ -6,10 +10,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./players.component.css']
 })
 export class PlayersComponent implements OnInit {
+  players: Player[];
 
-  constructor() { }
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private playersService: PlayersService) { }
 
   ngOnInit(): void {
+    this.players = this.playersService.getPlayers();
   }
 
 }
