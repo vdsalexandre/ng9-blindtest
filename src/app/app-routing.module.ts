@@ -4,7 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { PageNotFoundComponent } from './page-not-found.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/player/all', pathMatch: 'full' },
+  { path: '', redirectTo: '/admin/view', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];
 

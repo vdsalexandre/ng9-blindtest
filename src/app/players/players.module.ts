@@ -15,6 +15,9 @@ import { PlayersRoutingModule } from './players-routing.module';
     ],
     providers: [
         PlayersService
+    ],
+    exports: [
+        PlayersComponent
     ]
 })
 export class PlayersModule { }
