@@ -7,8 +7,7 @@ const adminRoutes: Routes = [
     {
         path: 'admin',
         children: [
-            { path: '', component: AdminAppComponent }
-            // { path: ':id', component: DetailPlayerComponent }
+            { path: 'view', component: AdminAppComponent }
         ]
     }
 ];

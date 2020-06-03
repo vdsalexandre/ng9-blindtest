@@ -8,12 +8,14 @@ import { PlayersModule } from './players/players.module';
 import { PageNotFoundComponent } from './page-not-found.component';
 import { AdminAppModule } from './admin-app/admin-app.module';
 import { AdminRoutingModule } from './admin-app/admin-routing.module';
+import { YoutubeModule } from './youtube/youtube.module';
 
 @NgModule({
   imports: [
     BrowserModule,
     HttpClientModule,
     AdminAppModule,
+    YoutubeModule,
     PlayersModule,
     AdminRoutingModule,
     AppRoutingModule
