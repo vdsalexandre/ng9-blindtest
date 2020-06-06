@@ -22,4 +22,14 @@ export class PlayersService {
         return players[i];
     }
   }
+
+  addValueToPlayer(id: number, valueToAdd: number): void {
+    let players = this.getPlayers();
+
+    for (let i = 0; i < players.length; i++) {
+      if (id === players[i].id) {
+        players[i].score += valueToAdd;
+      }
+    }
+  }
 }

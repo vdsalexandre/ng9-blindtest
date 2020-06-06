@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { YouTubePlayer } from '@angular/youtube-player';
 
 import * as $ from 'jquery';
 
@@ -8,9 +9,11 @@ import * as $ from 'jquery';
   styleUrls: ['./youtube.component.css']
 })
 export class YoutubeComponent implements OnInit {
+  private YTListParam: string = "list=";
   youtubeUrl: string;
   playlistID: string = '';
   player: YT.Player;
+  currentPlayer: any;
 
   constructor() { }
 
@@ -21,7 +24,6 @@ export class YoutubeComponent implements OnInit {
    }
 
   startVideo(): void {
-    console.log(`playlistID : ${this.playlistID}`);
     this.removePlayer();
 
     this.player = new YT.Player('player', {
@@ -41,9 +43,14 @@ export class YoutubeComponent implements OnInit {
       events: {
         'onStateChange': this.onPlayerStateChange.bind(this),
         'onError': this.onPlayerError.bind(this),
+        'onReady': this.onPlayerReady.bind(this)
       }
     });
     console.log(this.player);
+  }
+
+  onPlayerReady(event): void {
+    this.currentPlayer = event.target;
   }
 
   onPlayerStateChange(event): void {
@@ -51,10 +58,11 @@ export class YoutubeComponent implements OnInit {
 
     switch (event.data) {
       case window['YT'].PlayerState.PLAYING:
-        console.log('nouvelle vidéo lancée !!!');
+        this.currentPlayer.unMute();
         break;
 
       case window['YT'].PlayerState.PAUSED:
+        this.currentPlayer.mute();
         break;
 
        case window['YT'].PlayerState.ENDED:
@@ -76,10 +84,17 @@ export class YoutubeComponent implements OnInit {
   }
 
   searchVideoByUrl(): void {
-    let urlParams = this.youtubeUrl.split("list=");
-    this.playlistID = urlParams[1];
-    this.youtubeUrl = '';
-    this.startVideo();
+    if (this.youtubeUrl) {
+      if (this.youtubeUrl.indexOf(this.YTListParam) !== -1) {
+        let urlParams = this.youtubeUrl.split(this.YTListParam);
+        this.playlistID = urlParams[1];
+        this.startVideo();
+      } else {
+        console.log("format de la playlist youtube incorrect ...");
+      }
+
+      this.youtubeUrl = '';
+    }
   }
 
   removePlayer(): void {

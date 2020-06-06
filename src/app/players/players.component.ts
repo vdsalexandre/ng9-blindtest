@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 
 import { Player } from './player';
 import { PlayersService } from './players.service';
@@ -11,14 +10,15 @@ import { PlayersService } from './players.service';
 })
 export class PlayersComponent implements OnInit {
   players: Player[];
+  valueToAdd: number = 2;
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private playersService: PlayersService) { }
+  constructor(private playersService: PlayersService) { }
 
   ngOnInit(): void {
     this.players = this.playersService.getPlayers();
   }
 
+  addScoreToPlayer(id: number): void {
+    this.playersService.addValueToPlayer(id, this.valueToAdd);
+  }
 }

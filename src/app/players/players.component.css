@@ -1,3 +1,14 @@
 .li-item-avatar {
-    min-height: 65px !important;
+    min-height: 60px !important;
+}
+
+i {
+    cursor: pointer;
+}
+
+span.buttonIcon {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    color: #26a69a;
 }

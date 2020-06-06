@@ -1,4 +1,4 @@
-<h1 class="center">Joueurs</h1>
+<h3 class="center">Joueurs</h3>
 <div class="container">
     <div class="row">
         <ul class="collection">
@@ -6,7 +6,9 @@
                 <img class="circle" title="avatar" [src]="player.picture">
                 <span class="title">{{ player.name | uppercase }}</span>
                 <p>Score : {{ player.score }}</p>
-                <a href="#!" class="secondary-content"><i class="small material-icons">insert_chart</i></a>
+                <span href="#!" class="buttonIcon" (click)="addScoreToPlayer(player.id)">
+                    <i class="medium material-icons">add_box</i>
+                </span>
             </li>
         </ul>
     </div>

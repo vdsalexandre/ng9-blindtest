@@ -1,11 +1,9 @@
-<h4>Playlist YouTube</h4>
-
 <div class="row">
     <div class="col s9">
         <form #searchYoutubeForm="ngForm">
             <label for="youtubeUrl">URL de la playlist youtube : </label><br>
             <input type="text" name="youtubeUrl" id="youtubeUrl" 
-                placeholder="https://www.youtube.com/watch?v=5SIQPfeUTtg"
+                placeholder="https://www.youtube.com/playlist?list=PLvhsH1llZxB5"
                 [(ngModel)]="youtubeUrl" 
                 (keyup.enter)="searchVideoByUrl()">
             <a (click)="searchVideoByUrl()" class="waves-effect waves-light btn" title="rechercher la vidéo / playlist">Rechercher</a>
