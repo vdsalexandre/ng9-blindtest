@@ -113,7 +113,7 @@ export class YoutubeComponent implements OnInit {
   removePlayer(): void {
     if (this.player) {
       $('#player').remove();
-      $('#playerContainer').append('<div id="player"></div>');
+      $('<div id="player"></div>').insertBefore($('#playerControlls'));
     }
   }
 
