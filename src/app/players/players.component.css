@@ -12,3 +12,8 @@ span.buttonIcon {
     right: 10px;
     color: #26a69a;
 }
+
+.icon-disabled {
+    color: dimgrey;
+    cursor: not-allowed;
+}

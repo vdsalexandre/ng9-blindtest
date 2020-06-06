@@ -14,5 +14,16 @@
 <div class="container center">
     <div id="playerContainer">
         <div id="player"></div>
+        <div>
+            <button id="previousButton" (click)='playPreviousVideo()' class="btn-floating btn-small waves-effect waves-light red">
+                <i class="small material-icons">skip_previous</i>
+            </button>
+            <button id="playPauseButton" (click)='playPauseVideo()' class="btn-floating btn-small waves-effect waves-light red">
+                <i class="small material-icons">play_arrow</i>
+            </button>
+            <button id="nextButton" (click)='playNextVideo()' class="btn-floating btn-small waves-effect waves-light red">
+                <i class="small material-icons">skip_next</i>
+            </button>
+        </div>
     </div>
 </div>

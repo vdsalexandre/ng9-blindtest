@@ -1,13 +1,13 @@
-<h3 class="center">Joueurs</h3>
+<h3 class="center">Liste des joueurs</h3>
 <div class="container">
     <div class="row">
         <ul class="collection">
-            <li *ngFor="let player of players" class="collection-item avatar li-item-avatar">
+            <li *ngFor="let player of players; index as i" class="collection-item avatar li-item-avatar">
                 <img class="circle" title="avatar" [src]="player.picture">
                 <span class="title">{{ player.name | uppercase }}</span>
                 <p>Score : {{ player.score }}</p>
-                <span href="#!" class="buttonIcon" (click)="addScoreToPlayer(player.id)">
-                    <i class="medium material-icons">add_box</i>
+                <span class="buttonIcon" (click)="addScoreToPlayer(player.id, $event)">
+                    <i id="icon-{{i}}" class="medium material-icons">check_box</i>
                 </span>
             </li>
         </ul>

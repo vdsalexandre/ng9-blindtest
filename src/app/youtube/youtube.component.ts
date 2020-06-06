@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { YouTubePlayer } from '@angular/youtube-player';
 
 import * as $ from 'jquery';
 
@@ -14,6 +13,7 @@ export class YoutubeComponent implements OnInit {
   playlistID: string = '';
   player: YT.Player;
   currentPlayer: any;
+  private isVideoPaused: boolean = true;
 
   constructor() { }
 
@@ -21,7 +21,8 @@ export class YoutubeComponent implements OnInit {
     const tag = document.createElement('script');
     tag.src = 'https://www.youtube.com/iframe_api';
     document.body.appendChild(tag);
-   }
+    this.hideControls();
+  }
 
   startVideo(): void {
     this.removePlayer();
@@ -30,13 +31,14 @@ export class YoutubeComponent implements OnInit {
       playerVars: {
         autoplay: 0,
         modestbranding: 1,
-        controls: 1,
+        controls: 0,
         disablekb: 0,
         rel: 0,
         showinfo: 1,
         fs: 1,
         playsinline: 1,
         list: this.playlistID,
+        enablejsapi: 1
       },
       height: 200,
       width: 700,
@@ -47,6 +49,7 @@ export class YoutubeComponent implements OnInit {
       }
     });
     console.log(this.player);
+    
   }
 
   onPlayerReady(event): void {
@@ -54,33 +57,42 @@ export class YoutubeComponent implements OnInit {
   }
 
   onPlayerStateChange(event): void {
-    console.log(event);
-
     switch (event.data) {
       case window['YT'].PlayerState.PLAYING:
-        this.currentPlayer.unMute();
+        console.log("PLAYING" + " - " + event.data);
+        this.isVideoPaused = false;
         break;
 
       case window['YT'].PlayerState.PAUSED:
-        this.currentPlayer.mute();
+        console.log("PAUSED" + " - " + event.data);
+        this.isVideoPaused = true;
         break;
 
-       case window['YT'].PlayerState.ENDED:
-         break;
+      case window['YT'].PlayerState.ENDED:
+        break;
+
+      case window['YT'].PlayerState.CUED:
+        break;
+        
+      case window['YT'].PlayerState.UNSTARTED:
+        break;
+
+      case window['YT'].PlayerState.BUFFERING:
+        break;
     }
   }
 
   onPlayerError(event): void {
-    switch(event.data) {
-      case 2:
-        break;
+    // switch(event.data) {
+    //   case 2:
+    //     break;
 
-      case 100:
-        break;
+    //   case 100:
+    //     break;
 
-      case 101 || 150:
-        break;
-    }
+    //   case 101 || 150:
+    //     break;
+    // }
   }
 
   searchVideoByUrl(): void {
@@ -89,6 +101,7 @@ export class YoutubeComponent implements OnInit {
         let urlParams = this.youtubeUrl.split(this.YTListParam);
         this.playlistID = urlParams[1];
         this.startVideo();
+        this.showControls();
       } else {
         console.log("format de la playlist youtube incorrect ...");
       }
@@ -102,5 +115,51 @@ export class YoutubeComponent implements OnInit {
       $('#player').remove();
       $('#playerContainer').append('<div id="player"></div>');
     }
+  }
+
+  playNextVideo(): void {
+    this.currentPlayer.nextVideo();
+    this.initializeCheckedButtons();
+    let index: number = this.currentPlayer.getPlaylistIndex() + 2;
+    let playerSize: number = this.currentPlayer.getPlaylist().length;
+    console.log(`index : ${index} / ${playerSize}`);
+
+    if (index === playerSize) {
+      this.finishBlindTest();
+    }
+  }
+
+  playPauseVideo(): void {
+    if (this.isVideoPaused) {
+      this.currentPlayer.playVideo();
+      $('#playPauseButton i').text('pause');
+    } else {
+      this.currentPlayer.pauseVideo();
+      $('#playPauseButton i').text('play_arrow');
+    }
+  }
+
+  playPreviousVideo(): void {
+    this.currentPlayer.previousVideo();
+  }
+
+  hideControls(): void {
+    $('#nextButton').hide();
+    $('#playPauseButton').hide();
+    $('#previousButton').hide();
+  }
+
+  showControls(): void {
+    $('#nextButton').show();
+    $('#playPauseButton').show();
+    $('#previousButton').show();
+  }
+
+  initializeCheckedButtons(): void {
+    $('li i').removeClass('icon-disabled');
+  }
+
+  finishBlindTest(): void {
+    $('#nextButton').addClass('disabled');
   }
 }
