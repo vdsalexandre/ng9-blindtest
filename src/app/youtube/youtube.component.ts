@@ -14,6 +14,8 @@ export class YoutubeComponent implements OnInit {
   player: YT.Player;
   currentPlayer: any;
   private isVideoPaused: boolean = true;
+  index: number;
+  playerSize: number;
 
   constructor() { }
 
@@ -38,7 +40,9 @@ export class YoutubeComponent implements OnInit {
         fs: 1,
         playsinline: 1,
         list: this.playlistID,
-        enablejsapi: 1
+        enablejsapi: 1,
+        origin: 'http://localhost:4200',
+        autohide: 1
       },
       height: 200,
       width: 700,
@@ -49,17 +53,20 @@ export class YoutubeComponent implements OnInit {
       }
     });
     console.log(this.player);
-    
   }
 
   onPlayerReady(event): void {
     this.currentPlayer = event.target;
+    this.index = this.currentPlayer.getPlaylistIndex() + 1;
+    this.playerSize = this.currentPlayer.getPlaylist().length;
+    
   }
 
   onPlayerStateChange(event): void {
     switch (event.data) {
       case window['YT'].PlayerState.PLAYING:
         console.log("PLAYING" + " - " + event.data);
+        this.index = this.currentPlayer.getPlaylistIndex() + 1;
         this.isVideoPaused = false;
         break;
 
@@ -105,7 +112,6 @@ export class YoutubeComponent implements OnInit {
       } else {
         console.log("format de la playlist youtube incorrect ...");
       }
-
       this.youtubeUrl = '';
     }
   }
@@ -120,11 +126,8 @@ export class YoutubeComponent implements OnInit {
   playNextVideo(): void {
     this.currentPlayer.nextVideo();
     this.initializeCheckedButtons();
-    let index: number = this.currentPlayer.getPlaylistIndex() + 2;
-    let playerSize: number = this.currentPlayer.getPlaylist().length;
-    console.log(`index : ${index} / ${playerSize}`);
 
-    if (index === playerSize) {
+    if (this.index === this.playerSize) {
       this.finishBlindTest();
     }
   }
@@ -147,12 +150,14 @@ export class YoutubeComponent implements OnInit {
     $('#nextButton').hide();
     $('#playPauseButton').hide();
     $('#previousButton').hide();
+    $('#playlistIndex').hide();
   }
 
   showControls(): void {
     $('#nextButton').show();
     $('#playPauseButton').show();
     $('#previousButton').show();
+    $('#playlistIndex').show();
   }
 
   initializeCheckedButtons(): void {
