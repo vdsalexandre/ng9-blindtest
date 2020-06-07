@@ -59,33 +59,32 @@ export class YoutubeComponent implements OnInit {
     this.currentPlayer = event.target;
     this.index = this.currentPlayer.getPlaylistIndex() + 1;
     this.playerSize = this.currentPlayer.getPlaylist().length;
-    
+    this.currentPlayer.setVolume(100);
   }
 
   onPlayerStateChange(event): void {
     switch (event.data) {
       case window['YT'].PlayerState.PLAYING:
-        console.log("PLAYING" + " - " + event.data);
         this.index = this.currentPlayer.getPlaylistIndex() + 1;
-        this.isVideoPaused = false;
+        this.playerSize = this.currentPlayer.getPlaylist().length;
+        this.isVideoPaused = false;        
         break;
 
       case window['YT'].PlayerState.PAUSED:
-        console.log("PAUSED" + " - " + event.data);
         this.isVideoPaused = true;
         break;
 
-      case window['YT'].PlayerState.ENDED:
-        break;
+      // case window['YT'].PlayerState.ENDED:
+      //   break;
 
-      case window['YT'].PlayerState.CUED:
-        break;
+      // case window['YT'].PlayerState.CUED:
+      //   break;
         
-      case window['YT'].PlayerState.UNSTARTED:
-        break;
+      // case window['YT'].PlayerState.UNSTARTED:
+      //   break;
 
-      case window['YT'].PlayerState.BUFFERING:
-        break;
+      // case window['YT'].PlayerState.BUFFERING:
+      //   break;
     }
   }
 
