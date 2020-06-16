@@ -1,0 +1,38 @@
+<form #blindForm="ngForm">
+    <h2 class="header center">Bienvenue sur Blindtest App !</h2>
+    <div class="row">
+        <div class="col s12 m4 offset-m4">
+            <div class="card hoverable">
+                <div class="card-content center">
+                    <table class="bordered">
+                        <tbody>
+                            <tr>
+                                <td><input name="username" type="text" placeholder="Nom d'utilisateur" 
+                                    title="Veuillez renseigner un nom d'utilisateur" 
+                                    required
+                                    pattern="^[a-zA-Z0-9]{1,15}$"
+                                    [(ngModel)]="username"></td>
+                                    <td><button class="waves-effect waves-light btn" 
+                                        (click)="createBT()"
+                                        title="Créer un nouveau blindtest">Créer !</button></td>
+                            </tr>
+                            <tr>
+                                <td><input name="username" type="text" placeholder="Nom d'utilisateur"
+                                    title="Veuillez renseigner un nom d'utilisateur" 
+                                    required
+                                    pattern="^[a-zA-Z0-9]{1,15}$"></td>
+                                <td><input name="codeRoom" type="text" placeholder="Code d'une salle" 
+                                    title="Code pour rejoindre une salle existante"
+                                    [(ngModel)]="codeRoom"
+                                    pattern="^[A-Z0-9]{8}$"></td>
+                                    <td><button class="waves-effect waves-light btn" 
+                                        (click)="joinBT"
+                                        title="Rejoindre un blindtest existant">Rejoindre</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
