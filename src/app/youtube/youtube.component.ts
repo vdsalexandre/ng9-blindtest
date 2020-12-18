@@ -17,6 +17,11 @@ export class YoutubeComponent implements OnInit {
   index: number;
   playerSize: number;
   currentVideoName: string;
+  endValue: number = 45;
+  timeLeft: number;
+  timerStartDate: number;
+  timerPauseDate: number;
+  timer: any;
 
   constructor() { }
 
@@ -27,7 +32,7 @@ export class YoutubeComponent implements OnInit {
     this.hideControls();
   }
 
-  startVideo(): void {
+  initializePlayer(): void {
     this.removePlayer();
 
     this.player = new YT.Player('player', {
@@ -42,7 +47,6 @@ export class YoutubeComponent implements OnInit {
         playsinline: 1,
         list: this.playlistID,
         enablejsapi: 1,
-        origin: 'http://localhost:4200',
         autohide: 1
       },
       height: 200,
@@ -53,13 +57,14 @@ export class YoutubeComponent implements OnInit {
         'onReady': this.onPlayerReady.bind(this)
       }
     });
-    console.log(this.player);
+    console.log(this.player);    
   }
 
   onPlayerReady(event): void {
     this.currentPlayer = event.target;
     this.index = this.currentPlayer.getPlaylistIndex() + 1;
     this.playerSize = this.currentPlayer.getPlaylist().length;
+    this.timeLeft = this.endValue;
     this.currentPlayer.setVolume(100);
   }
 
@@ -70,10 +75,12 @@ export class YoutubeComponent implements OnInit {
         this.playerSize = this.currentPlayer.getPlaylist().length;
         this.currentVideoName = event.target.getVideoData().title;
         this.isVideoPaused = false;
+        this.initializeTimer(this.endValue);
         break;
 
       case window['YT'].PlayerState.PAUSED:
         this.isVideoPaused = true;
+        this.endTimer();
         break;
 
       // case window['YT'].PlayerState.ENDED:
@@ -108,7 +115,8 @@ export class YoutubeComponent implements OnInit {
       if (this.youtubeUrl.indexOf(this.YTListParam) !== -1) {
         let urlParams = this.youtubeUrl.split(this.YTListParam);
         this.playlistID = urlParams[1];
-        this.startVideo();
+        
+        this.initializePlayer();
         this.showControls();
       } else {
         console.log("format de la playlist youtube incorrect ...");
@@ -128,17 +136,23 @@ export class YoutubeComponent implements OnInit {
     this.currentPlayer.nextVideo();
     this.initializeCheckedButtons();
 
-    if (this.index === this.playerSize) {
+    if (this.index >= this.playerSize) {
       this.finishBlindTest();
+      this.endTimer();
     }
   }
 
   playPauseVideo(): void {
     if (this.isVideoPaused) {
       this.currentPlayer.playVideo();
+      this.initializeTimer(this.timeLeft);
+      console.log(`timer : ${this.timeLeft}`);
+      
       $('#playPauseButton i').text('pause');
     } else {
       this.currentPlayer.pauseVideo();
+      this.timeLeft = this.getTimeLeft();
+      this.endTimer();
       $('#playPauseButton i').text('play_arrow');
     }
   }
@@ -167,5 +181,26 @@ export class YoutubeComponent implements OnInit {
 
   finishBlindTest(): void {
     $('#nextButton').addClass('disabled');
+  }
+
+  initializeTimer(timerValue: number): void {
+    this.timerStartDate = Date.now();
+    this.timer = setTimeout(() => {
+      this.playNextVideo();
+    }, 1000 * timerValue)
+  }
+
+  endTimer(): void {
+    console.log("timer stopped");
+    
+    clearTimeout(this.timer);
+  }
+
+  getTimeLeft(): number {
+    this.timerPauseDate = Date.now();
+    let variable: Date = new Date(this.timerPauseDate - this.timerStartDate);
+    console.log(variable);
+    
+    return variable.getDate();
   }
 }
