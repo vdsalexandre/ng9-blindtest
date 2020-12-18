@@ -6,3 +6,8 @@ h3 span {
 h5 span {
     color: darkviolet;
 }
+
+.content {
+    width: 80%;
+    margin: auto;
+}

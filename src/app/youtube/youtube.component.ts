@@ -38,7 +38,7 @@ export class YoutubeComponent implements OnInit {
         disablekb: 0,
         rel: 0,
         showinfo: 0,
-        fs: 1,
+        fs: 0,
         playsinline: 1,
         list: this.playlistID,
         enablejsapi: 1,
