@@ -20,7 +20,10 @@
     "@angular/platform-browser-dynamic": "~9.1.4",
     "@angular/router": "~9.1.4",
     "@angular/youtube-player": "^9.2.4",
+    "@cloudinary/angular-5.x": "^1.2.2",
+    "cloudinary-core": "^2.9.0",
     "jquery": "^3.5.1",
+    "pixelate": "0.0.5",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"

@@ -16,6 +16,7 @@ export class YoutubeComponent implements OnInit {
   private isVideoPaused: boolean = true;
   index: number;
   playerSize: number;
+  currentVideoName: string;
 
   constructor() { }
 
@@ -36,7 +37,7 @@ export class YoutubeComponent implements OnInit {
         controls: 0,
         disablekb: 0,
         rel: 0,
-        showinfo: 1,
+        showinfo: 0,
         fs: 1,
         playsinline: 1,
         list: this.playlistID,
@@ -67,7 +68,8 @@ export class YoutubeComponent implements OnInit {
       case window['YT'].PlayerState.PLAYING:
         this.index = this.currentPlayer.getPlaylistIndex() + 1;
         this.playerSize = this.currentPlayer.getPlaylist().length;
-        this.isVideoPaused = false;        
+        this.currentVideoName = event.target.getVideoData().title;
+        this.isVideoPaused = false;
         break;
 
       case window['YT'].PlayerState.PAUSED:
